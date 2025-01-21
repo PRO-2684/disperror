@@ -1,6 +1,6 @@
 # disperror
 
-A library for `Display`ing errors instead of `Debug`ging them.
+`Display`ing errors instead of `Debug`ging them when returned from `main`.
 
 ## Usage
 
