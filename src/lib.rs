@@ -14,18 +14,16 @@ use std::{error::Error, fmt::Debug};
 /// let disp_error = DispError::from(error);
 /// assert_eq!(format!("{:?}", disp_error), "File not found");
 /// ```
-pub struct DispError<E: Error> {
-    error: E,
-}
+pub struct DispError<E: Error>(E);
 
 impl<E: Error> Debug for DispError<E> {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{}", self.error)
+        write!(f, "{}", self.0)
     }
 }
 
 impl<E: Error> From<E> for DispError<E> {
     fn from(error: E) -> Self {
-        Self { error }
+        Self(error)
     }
 }
