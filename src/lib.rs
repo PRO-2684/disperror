@@ -1,7 +1,10 @@
 #![doc = include_str!("../README.md")]
 
 #[deny(missing_docs)]
-use std::{error::Error, fmt::Debug};
+use std::{
+    error::Error,
+    fmt::{self, Debug, Display},
+};
 
 /// A wrapper for errors implementing `std::error::Error`, that when `Debug`ged, will `Display` the contained error. Usually used in the signature of a `main` function - see examples in the [crate documentation](crate).
 ///
@@ -17,8 +20,8 @@ use std::{error::Error, fmt::Debug};
 pub struct DispError<E: Error>(E);
 
 impl<E: Error> Debug for DispError<E> {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{}", self.0)
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        Display::fmt(&self.0, f)
     }
 }
 
