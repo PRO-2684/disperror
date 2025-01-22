@@ -18,7 +18,6 @@ Note that `MyError` must implement `std::error::Error`.
 
 ```rust should_panic
 use disperror::DispError;
-use std::io::Read;
 
 fn main() -> Result<(), DispError<std::io::Error>> {
     let contents = std::fs::read_to_string("nonexistent_file.txt")?;
@@ -27,10 +26,16 @@ fn main() -> Result<(), DispError<std::io::Error>> {
 }
 ```
 
-Should print the following error message if that file does not exist:
+Should `Display` the following error message if that file does not exist:
 
 ```text
 Error: No such file or directory (os error 2)
+```
+
+Instead of the usual `Debug` output:
+
+```text
+Error: Os { code: 2, kind: NotFound, message: "No such file or directory" }
 ```
 
 ## Implementation
@@ -53,7 +58,7 @@ use std::{error::Error, fmt::Debug};
 # pub struct DispError<E: Error> {
 #     error: E,
 # }
-#
+
 impl<E: Error> Debug for DispError<E> {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "{}", self.error)
@@ -69,7 +74,7 @@ In addition, `DispError` implements `From<E>` for implicit conversion:
 # pub struct DispError<E: Error> {
 #     error: E,
 # }
-#
+
 impl<E: Error> From<E> for DispError<E> {
     fn from(error: E) -> Self {
         Self { error }
