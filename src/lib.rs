@@ -1,6 +1,6 @@
 #![doc = include_str!("../README.md")]
+#![deny(missing_docs)]
 
-#[deny(missing_docs)]
 use std::{
     error::Error,
     fmt::{self, Debug, Display},
