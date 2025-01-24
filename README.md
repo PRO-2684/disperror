@@ -45,9 +45,7 @@ The `DispError` type is a simple wrapper around an error type `E` that implement
 ```rust
 use std::error::Error;
 
-pub struct DispError<E: Error> {
-    error: E,
-}
+pub struct DispError<E: Error>(E);
 ```
 
 The `Debug` implementation of `DispError` forwards to the `Display` implementation of the inner error:
@@ -55,13 +53,11 @@ The `Debug` implementation of `DispError` forwards to the `Display` implementati
 ```rust
 use std::{error::Error, fmt::Debug};
 #
-# pub struct DispError<E: Error> {
-#     error: E,
-# }
+# pub struct DispError<E: Error>(E);
 
 impl<E: Error> Debug for DispError<E> {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{}", self.error)
+        write!(f, "{}", self.0)
     }
 }
 ```
@@ -71,13 +67,11 @@ In addition, `DispError` implements `From<E>` for implicit conversion:
 ```rust
 # use std::{error::Error, fmt::Debug};
 #
-# pub struct DispError<E: Error> {
-#     error: E,
-# }
-
+# pub struct DispError<E: Error>(E);
+#
 impl<E: Error> From<E> for DispError<E> {
     fn from(error: E) -> Self {
-        Self { error }
+        Self(error)
     }
 }
 ```
