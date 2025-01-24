@@ -1,0 +1,23 @@
+name: "tagged-release"
+
+on:
+  push:
+    tags:
+    - "v*"
+
+jobs:
+  publish:
+    # Publish to crates.io
+    name: publish
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 1
+    - name: Install Rust
+      uses: dtolnay/rust-toolchain@stable
+      with:
+        toolchain: stable
+    - name: Publish to crates.io
+      run: cargo publish --token ${{ secrets.CARGO_TOKEN }}
