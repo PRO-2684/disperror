@@ -8,5 +8,6 @@ license = "MIT"
 readme = "README.md"
 description = "`Display`ing errors instead of `Debug`ging them when returned from `main`."
 keywords = ["error", "main", "print", "debug", "display"]
+categories = ["development-tools::debugging", "rust-patterns"]
 
 [dependencies]
